@@ -623,12 +623,13 @@
 
 
     function doFrameResize() {
-        if (window.frameElement) {
-            window.frameElement.height = window.innerHeight - 200;
+        let frame = window.frameElement ?? (window.parent.getElementById("dv-benefit-calculator-nfy"));
+        if (frame) {
+            frame.height = window.innerHeight - 200;
         }
-        console.log(window.frameElement);
+        console.log(frame);
     };
-    
+
     document.addEventListener("DOMContentLoaded", () => {
         callAll();
         window.addEventListener("resize", doFrameResize);
