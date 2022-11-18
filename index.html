@@ -622,18 +622,19 @@
     // window.addEventListener('load', callAll());
 
 
-    document.addEventListener("DOMContentLoaded", () => {
-        callAll()
-    });
-
     function doFrameResize() {
         if (window.frameElement) {
-            window.frameElement.height = window.innerHeight + 30;
+            window.frameElement.height = window.innerHeight - 200;
         }
+        console.log(window.frameElement);
     };
+    
+    document.addEventListener("DOMContentLoaded", () => {
+        callAll();
+        window.addEventListener("resize", doFrameResize);
+        doFrameResize();
+    });
 
-    window.addEventListener("resize", doFrameResize);
-    doFrameResize();
 </script>
 
 </html>
