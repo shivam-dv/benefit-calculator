@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .cal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+    .calc-header-input-box {
+        flex: 1;
+        padding: 10px 0;
+    }
+
+    .calc-input-title {
+        text-align: center;
+        font-size: 18px;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 700;
+    }
+
+    ._input {
+        border: 4px solid #EA191F;
+        border-radius: 30px;
+        font-size: 20px;
+        outline: none;
+        padding: 20px;
+        /* width: 100%; */
+        min-width: 200px;
+        margin: 0 auto;
+        text-align: center;
+        height: 60px;
+    }
+
+    .calc-tag-line {
+        text-align: center;
+        font-size: 20px;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 700;
+
+    }
+
+    .calc-slider-box {
+        background-color: #FFDADB;
+        max-width: 900px;
+        padding: 10px;
+        border-radius: 40px;
+        margin: 30px auto
+    }
+
+    .slider {
+        border-radius: 20px;
+        text-align: center;
+        padding: 0 40px;
+    }
+
+    .slider #slider_ranage {
+        font-size: 26px;
+        font-weight: 600;
+        font-family: 'Roboto', sans-serif;
+        padding-left: 30px;
+        color: black;
+    }
+
+    /* === range theme and appearance === */
+    input[type="range"] {
+        font-size: 1.5rem;
+        width: 12.5em;
+        width: 100%;
+        border-radius: 2px
+    }
+
+    .slider input[type="range"] {
+        color: red;
+        --thumb-height: 1.125em;
+        --track-height: 4px;
+        --track-color: rgba(0, 0, 0, 0.2);
+
+        --brightness-down: 80%;
+        --clip-edges: 4px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        .slider input[type="range"] {
+            color: #EA191F;
+            --track-color: rgba(196, 196, 196, 1);
+        }
+
+    }
+
+    /* === range commons === */
+    .slider input[type="range"] {
+        position: relative;
+        background: #fff0;
+        overflow: hidden;
+    }
+
+
+
+    .slider input[type="range"]:disabled {
+        filter: grayscale(1);
+        opacity: 0.3;
+        cursor: not-allowed;
+    }
+
+    /* === WebKit specific styles === */
+    .slider input[type="range"],
+    .slider input[type="range"]::-webkit-slider-runnable-track,
+    .slider input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        transition: all ease 100ms;
+        height: var(--thumb-height);
+    }
+
+    .slider input[type="range"]::-webkit-slider-runnable-track,
+    .slider input[type="range"]::-webkit-slider-thumb {
+        position: relative;
+    }
+
+    .slider input[type="range"]::-webkit-slider-thumb {
+        --thumb-radius: calc((var(--thumb-height) * 0.5) - 1px);
+        --clip-top: calc((var(--thumb-height) - var(--track-height)) * 0.5 - 0.5px);
+        --clip-bottom: calc(var(--thumb-height) - var(--clip-top));
+        --clip-further: calc(100% + 1px);
+        --box-fill: calc(-100vmax - var(--thumb-width, var(--thumb-height))) 0 0 100vmax currentColor;
+
+        width: var(--thumb-width, var(--thumb-height));
+        background: linear-gradient(currentColor 0 0) scroll no-repeat left center / 50% calc(var(--track-height) + 1px);
+        background-color: currentColor;
+        box-shadow: var(--box-fill);
+        border-radius: var(--thumb-width, var(--thumb-height));
+
+        filter: brightness(100%);
+        clip-path: polygon(100% -1px,
+                var(--clip-edges) -1px,
+                0 var(--clip-top),
+                -100vmax var(--clip-top),
+                -100vmax var(--clip-bottom),
+                0 var(--clip-bottom),
+                var(--clip-edges) 100%,
+                var(--clip-further) var(--clip-further));
+    }
+
+
+
+
+
+    .slider input[type="range"]::-webkit-slider-runnable-track {
+        background: linear-gradient(var(--track-color) 0 0) scroll no-repeat center / 100% calc(var(--track-height) + 1px);
+    }
+
+    .slider input[type="range"]:disabled::-webkit-slider-thumb {
+        cursor: not-allowed;
+    }
+
+    /* === Firefox specific styles === */
+    .slider input[type="range"],
+    .slider input[type="range"]::-moz-range-track,
+    .slider input[type="range"]::-moz-range-thumb {
+        appearance: none;
+        transition: all ease 100ms;
+        height: var(--thumb-height);
+    }
+
+    .slider input[type="range"]::-moz-range-track,
+    .slider input[type="range"]::-moz-range-thumb,
+    .slider input[type="range"]::-moz-range-progress {
+        background: #fff0;
+    }
+
+    .slider input[type="range"]::-moz-range-thumb {
+        background: currentColor;
+        border: 0;
+        width: var(--thumb-width, var(--thumb-height));
+        border-radius: var(--thumb-width, var(--thumb-height));
+        cursor: grab;
+    }
+
+
+    .slider input[type="range"]::-moz-range-track {
+        width: 100%;
+        background: var(--track-color);
+    }
+
+    .slider input[type="range"]::-moz-range-progress {
+        appearance: none;
+        background: currentColor;
+        transition-delay: 30ms;
+    }
+
+    .slider input[type="range"]::-moz-range-track,
+    .slider input[type="range"]::-moz-range-progress {
+        height: calc(var(--track-height) + 1px);
+        border-radius: var(--track-height);
+    }
+
+    .slider input[type="range"]::-moz-range-thumb,
+    .slider input[type="range"]::-moz-range-progress {
+        filter: brightness(100%);
+    }
+
+
+
+    .slider input[type="range"]:disabled::-moz-range-thumb {
+        cursor: not-allowed;
+    }
+
+    ._cl_red {
+        color: #EA191F;
+        padding: 0;
+
+    }
+
+    .multi-button {
+        display: flex;
+        justify-content: center;
+        gap: 5px
+    }
+
+    .multi-button .group_btn {
+        padding: 10px 20px;
+        font-size: 20px;
+        background-color: transparent;
+        border: 3px solid #EA191F;
+    }
+
+    .multi-button .group_btn.group_right_btn {
+        border-radius: 40px 0 0 40px;
+        background: red;
+        color: #fff
+    }
+
+    .multi-button .group_btn.group_left_btn {
+        border-radius: 0 40px 40px 0;
+
+    }
+
+    .calc_result {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        text-align: center;
+        font-size: 22px;
+        margin: 40px auto;
+
+
+    }
+
+    .calc_result span {
+        display: inline
+    }
+
+    .little_bigger {
+        font-size: 1.3em;
+        font-weight: bold;
+    }
+
+    @media only screen and (max-width: 600px) {
+        ._input {
+            border: 4px solid #EA191F;
+            border-radius: 30px;
+            font-size: 30px;
+            outline: none;
+            padding: 15px;
+
+            margin: 0 auto;
+            text-align: center;
+            height: 60px;
+        }
+
+        .calc-header-input-box {
+            flex: 1;
+            padding: 5px 0;
+        }
+
+        .calc-input-title {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .calc-slider-box {
+            margin: 20px auto
+        }
+
+        .slider {
+            padding: 0 10px;
+        }
+
+        .slider input[type="range"] {
+            -webkit-appearance: none !important;
+            width: 100%;
+            margin: 3px 0
+        }
+
+
+        .calc-tag-line {
+            text-align: center;
+            font-size: 15px;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
+        }
+
+        .multi-button .group_btn {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+
+        .multi-button .group_btn.group_right_btn {
+            border-radius: 10px 0 0 10px;
+            background-color: red;
+            color: #fff
+        }
+
+        .multi-button .group_btn.group_left_btn {
+            border-radius: 0 10px 10px 0;
+        }
+
+        .calc_result {
+            font-size: 15px;
+        }
+
+        .little_bigger {
+            font-size: 17px;
+            font-weight: bold;
+        }
+    }
+
+    @media only screen and (max-width: 400px) {
+        ._input {
+            border: 4px solid #EA191F;
+            font-size: 20px;
+
+            padding: 12px;
+
+            margin: 0 auto;
+            text-align: center;
+            height: 60px;
+        }
+
+        .calc-header-input-box {
+            flex: 1;
+            padding: 5px 0;
+        }
+
+        .calc-input-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .calc-slider-box {
+            margin: 10px auto
+        }
+
+        .slider {
+            padding: 0 10px;
+        }
+
+        .slider input[type="range"] {
+            -webkit-appearance: none !important;
+            width: 100%;
+            margin: 3px 0
+        }
+
+        .calc-tag-line {
+            text-align: center;
+            font-size: 12px;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
+        }
+
+        .multi-button .group_btn {
+            padding: 3px 8px;
+            font-size: 12px;
+        }
+
+        .multi-button .group_btn.group_right_btn {
+            border-radius: 10px 0 0 10px;
+
+        }
+
+        .multi-button .group_btn.group_left_btn {
+            border-radius: 0 10px 10px 0;
+
+        }
+
+        .calc_result {
+            font-size: 14px;
+        }
+
+        .little_bigger {
+            font-size: 15px;
+            font-weight: bold;
+        }
+    }
+
+    @media only screen and (max-width: 320px) {
+        ._input {
+            border: 4px solid #EA191F;
+            font-size: 20px;
+            min-width: 180px;
+
+            padding: 12px;
+
+            margin: 0 auto;
+            text-align: center;
+            height: 60px;
+        }
+
+        .multi-button .group_btn {
+            padding: 2px 5px;
+            font-size: 10px;
+        }
+    }
+</style>
+
+<body>
+    <div class="calc-container">
+        <div class="text-center">
+            <div class="row m-0">
+                <div class="col">
+                    <div class="calc-header-input-box">
+                        <p class="calc-input-title">Your Avg. Monthly Traffic:</p>
+                        <input type="text" class="_input" id="_trafic" value="100000" placeholder=""
+                            oninput="getTrafic()" />
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="calc-header-input-box">
+                        <p class="calc-input-title">Your Avg. Monthly Orders:</p>
+                        <input type="text" class="_input" id="_orders" value="5000" placeholder=""
+                            oninput="getOrders()" />
+                    </div>
+
+                </div>
+                <div class="col">
+                    <div class="calc-header-input-box">
+                        <p class="calc-input-title">Your Avg. Monthly Revenue:</p>
+                        <input type="text" class="_input" id="_revenue" value="247000" placeholder=""
+                            oninput="getRevenue()" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br />
+        <div>
+            <p class="calc-tag-line">Our team guarantees that you will see a <span class="_cl_red"> minimum 30% </span>
+                lift in the first 3 months of our service.</p>
+
+
+        </div>
+
+        <div class="calc-slider-box">
+            <div class="slider">
+                <p id="slider_ranage">20% </p>
+                <input type="range" min="20" max="100" value="20" id="myRange">
+            </div>
+            <br />
+            <p class="calc-input-title"><span class="_cl_red">Slide</span> to calculate impact on revenue at various
+                conversation lifts</p>
+        </div>
+        <div>
+            <p class="calc-tag-line">Choose Your Time Frame</p>
+            <div class="multi-button">
+                <button class="group_btn group_right_btn" id="btn_three">3 Month</button>
+                <button class="group_btn" id="btn_six">6 Month</button>
+                <button class="group_btn" id="btn_nine">9 Month</button>
+                <button class="group_btn group_left_btn" id="btn_twelve">12 Month</button>
+
+            </div>
+        </div>
+
+        <div>
+            <p class="calc_result" style="width: 100%">By leveraging our CRO services With a lift of <span
+                    class="_cl_red little_bigger" id="percentage_count">20%</span> in your conversion rate, your will
+                generate <span class="_cl_red little_bigger" id="final_result">$ XXXX</span> additional revenue without
+                increasing your marketing spends.</p>
+        </div>
+    </div>
+</body>
+<script>
+    let trafic = 100000;
+    let orders = 5000;
+    let revenue = 247000;
+    let ranage = 20;
+    let months = 3;
+
+
+    function getTrafic() {
+        var val = document.getElementById('_trafic').value;
+        trafic = val;
+        console.log(trafic);
+        updateResult()
+
+    }
+
+    function getOrders() {
+        var val = document.getElementById('_orders').value;
+        orders = val;
+        updateResult()
+
+    }
+
+    function getRevenue() {
+        var val = document.getElementById('_revenue').value;
+        revenue = val;
+        updateResult()
+
+    }
+
+    var slider = document.getElementById("myRange");
+    var output = document.getElementById("slider_ranage");
+    var percCount = document.getElementById("percentage_count");
+
+
+    output.innerHTML = slider.value + '%';
+    percCount.innerHTML = slider.value + '%';
+    range = slider.value
+    slider.oninput = function () {
+        console.log(typeof (Number(this.value)))
+        output.innerHTML = Number(this.value) + '%';
+        percCount.innerHTML = slider.value + '%';
+
+        range = Number(this.value)
+        updateResult()
+    }
+    document.getElementById("btn_three").onclick = function () {
+        document.getElementById("btn_three").style.background = 'red'
+        document.getElementById("btn_three").style.color = '#fff'
+        document.getElementById("btn_six").style.background = 'transparent'
+        document.getElementById("btn_six").style.color = '#000'
+        document.getElementById("btn_nine").style.background = 'transparent'
+        document.getElementById("btn_nine").style.color = '#000'
+        document.getElementById("btn_twelve").style.background = 'transparent'
+        document.getElementById("btn_twelve").style.color = '#000'
+        months = 3;
+        updateResult()
+    };
+    document.getElementById("btn_six").onclick = function () {
+        document.getElementById("btn_three").style.background = 'transparent'
+        document.getElementById("btn_three").style.color = '#000'
+        document.getElementById("btn_six").style.background = 'red'
+        document.getElementById("btn_six").style.color = '#fff'
+        document.getElementById("btn_nine").style.background = 'transparent'
+        document.getElementById("btn_nine").style.color = '#000'
+        document.getElementById("btn_twelve").style.background = 'transparent'
+        document.getElementById("btn_twelve").style.color = '#000'
+        months = 6;
+        updateResult()
+    };
+    document.getElementById("btn_nine").onclick = function () {
+        document.getElementById("btn_three").style.background = 'transparent'
+        document.getElementById("btn_three").style.color = '#000'
+        document.getElementById("btn_six").style.background = 'transparent'
+        document.getElementById("btn_six").style.color = '#000'
+        document.getElementById("btn_nine").style.background = 'red'
+        document.getElementById("btn_nine").style.color = '#fff'
+        document.getElementById("btn_twelve").style.background = 'transparent'
+        document.getElementById("btn_twelve").style.color = '#000'
+        months = 9;
+        updateResult()
+    };
+    document.getElementById("btn_twelve").onclick = function () {
+        document.getElementById("btn_three").style.background = 'transparent'
+        document.getElementById("btn_three").style.color = '#000'
+        document.getElementById("btn_six").style.background = 'transparent'
+        document.getElementById("btn_six").style.color = '#000'
+        document.getElementById("btn_nine").style.background = 'transparent'
+        document.getElementById("btn_nine").style.color = '#000'
+        document.getElementById("btn_twelve").style.background = 'red'
+        document.getElementById("btn_twelve").style.color = '#fff'
+        months = 12;
+        updateResult()
+    };
+
+
+    function updateResult() {
+        if (trafic > 0 && orders > 0 && revenue > 0 && Number(range) > 0 && Number(months) > 0) {
+            var result = document.getElementById("final_result");
+            var aa = 5000 / 100000 * 1 + 0.2 * 100000 * 247000 / 5000 - 247000 * 3
+
+            var a = orders / trafic;
+            var b = 1 + Number(range) / 100;
+            var c = revenue / orders
+            var d = a * b;
+            var f = d * trafic
+            var g = revenue / orders
+            var i = f * g
+            var j = i - revenue
+
+
+            result.innerHTML = '$' + Math.trunc(j * Number(months)).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+        }
+    }
+
+    function callAll() {
+        updateResult()
+    }
+
+    // window.addEventListener('load', callAll());
+
+
+    document.addEventListener("DOMContentLoaded", () => {
+        callAll()
+    });
+</script>
+
+</html>
