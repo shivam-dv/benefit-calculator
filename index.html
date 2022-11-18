@@ -13,7 +13,6 @@
         margin: 0;
         padding: 0;
     }
-    
     .calc-container {
         display: block;
         width: 100%;
@@ -626,6 +625,15 @@
     document.addEventListener("DOMContentLoaded", () => {
         callAll()
     });
+
+    function doFrameResize() {
+        if (window.frameElement) {
+            window.frameElement.height = window.innerHeight + 30;
+        }
+    };
+
+    window.addEventListener("resize", doFrameResize);
+    doFrameResize();
 </script>
 
 </html>
